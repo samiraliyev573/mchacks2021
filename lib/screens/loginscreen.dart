@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mchacks2021/screens/home_page.dart';
 import 'package:mchacks2021/screens/registrationscreen.dart';
-import '../components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
