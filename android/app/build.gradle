@@ -44,6 +44,8 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // Enabling multidex support.
+        multiDexEnabled true
     }
 
     buildTypes {
