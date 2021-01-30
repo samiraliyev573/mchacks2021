@@ -39,12 +39,17 @@ class HomePage extends StatelessWidget {
 class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CategoryList(),
-        Genres(),
-        Carousel(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          CategoryList(),
+          Genres(),
+          SizedBox(
+            height: 20,
+          ),
+          Carousel(),
+        ],
+      ),
     );
   }
 }

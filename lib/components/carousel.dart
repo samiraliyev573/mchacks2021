@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/topic.dart';
+import 'carousel_tile.dart';
+import 'dart:math' as math;
 
 class Carousel extends StatefulWidget {
   @override
@@ -14,7 +16,10 @@ class _CarouselState extends State<Carousel> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller = PageController();
+    _controller = PageController(
+      viewportFraction: 0.8,
+      initialPage: initialPage,
+    );
   }
 
   @override
@@ -31,29 +36,34 @@ class _CarouselState extends State<Carousel> {
       child: AspectRatio(
         aspectRatio: 0.85,
         child: PageView.builder(
+            onPageChanged: (value) {
+              setState(() {
+                initialPage = value;
+              });
+            },
+            physics: ClampingScrollPhysics(),
+            controller: _controller,
             itemCount: topics.length,
             itemBuilder: (context, index) {
-              return TopicTile(topics[index]);
+              return buildTopicSlider(index);
             }),
       ),
     );
   }
-}
 
-class TopicTile extends StatelessWidget {
-  final Topic topic;
-
-  TopicTile(this.topic);
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(topic.imgurl))),
-        ))
-      ],
-    );
-  }
+  Widget buildTopicSlider(int index) => AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        double value = 0;
+        if (_controller.position.haveDimensions) {
+          value = index - _controller.page;
+          value = (value * 0.038).clamp(-1, 1);
+        }
+        return AnimatedOpacity(
+          duration: Duration(milliseconds: 350),
+          opacity: initialPage == index ? 1 : 0.4,
+          child: Transform.rotate(
+              angle: math.pi * value, child: TopicTile(topics[index])),
+        );
+      });
 }
