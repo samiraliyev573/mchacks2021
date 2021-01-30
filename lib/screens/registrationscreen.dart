@@ -1,26 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:mchacks2021/screens/home_page.dart';
-import 'package:mchacks2021/screens/registrationscreen.dart';
-import '../components/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_page.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter/material.dart';
 import 'package:mchacks2021/constants.dart';
+import 'package:mchacks2021/screens/home_page.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String id = 'login_screen';
+class RegistrationScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  bool showSpinner = false;
-  final _auth = FirebaseAuth.instance;
-  String email;
-  String password;
-
+class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
+    bool showSpinner = false;
+    String email;
+    String password;
+    final _auth = FirebaseAuth.instance;
     return Scaffold(
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
@@ -31,11 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover),
             ),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Spacer(),
                   Flexible(
                     child: Hero(
@@ -47,15 +41,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 48.0,
-                  ),
                   Text(
-                    "Log In",
+                    "Create an account",
                     style: Theme.of(context).textTheme.headline4.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  Text("Welcome back !! Happy to see you again."),
+                  Text("Create an account to join adventure"),
                   Spacer(),
                   TextField(
                     keyboardType: TextInputType.emailAddress,
@@ -95,9 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         showSpinner = true;
                       });
                       try {
-                        final user = await _auth.signInWithEmailAndPassword(
-                            email: email, password: password);
-                        if (user != null) {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -122,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       child: Text(
-                        "Log In",
+                        "Sign Up",
                       ),
                     ),
                   ),
@@ -131,10 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegistrationScreen()));
+                      Navigator.pop(context);
                     },
                     child: Container(
                       width: double.infinity,
@@ -147,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       child: Text(
-                        "Sign Up",
+                        "Sign In",
                       ),
                     ),
                   ),

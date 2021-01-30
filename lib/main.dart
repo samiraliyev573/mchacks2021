@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './screens/loginscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'screens/registrationscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'McHacks2021',
+      theme: ThemeData.dark(),
+      debugShowCheckedModeBanner: false,
       home: LoginScreen(),
     );
   }
