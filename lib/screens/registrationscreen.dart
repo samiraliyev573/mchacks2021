@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mchacks2021/constants.dart';
 import 'package:mchacks2021/screens/home_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -41,12 +42,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                     ),
                   ),
-                  Text(
-                    "Create an account",
-                    style: Theme.of(context).textTheme.headline4.copyWith(
+                  TypewriterAnimatedTextKit(
+                    speed: Duration(milliseconds: 300),
+                    text: [
+                      "Create an account",
+                      "Join the adventure",
+                    ],
+                    textStyle: Theme.of(context).textTheme.headline4.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
                   ),
-                  Text("Create an account to join adventure"),
                   Spacer(),
                   TextField(
                     keyboardType: TextInputType.emailAddress,

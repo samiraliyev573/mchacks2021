@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:mchacks2021/constants.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -49,12 +50,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 48.0,
                   ),
-                  Text(
-                    "Log In",
-                    style: Theme.of(context).textTheme.headline4.copyWith(
+                  TypewriterAnimatedTextKit(
+                    speed: Duration(milliseconds: 300),
+                    text: [
+                      "Welcome Back",
+                      "Happy to see you",
+                    ],
+                    textStyle: Theme.of(context).textTheme.headline4.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
                   ),
-                  Text("Welcome back !! Happy to see you again."),
                   Spacer(),
                   TextField(
                     keyboardType: TextInputType.emailAddress,
