@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "372824878082",
+    "project_id": "mchacksdiscussionapp",
+    "storage_bucket": "mchacksdiscussionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372824878082:android:e6eb3099fbaeb6519d4b1b",
+        "android_client_info": {
+          "package_name": "com.example.mchacks2021"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372824878082-i6gh016v72s62sfamqqc8d1iek2tkig4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbujouIs7GMxzDqRbDWyqWXHqGCl9BhXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372824878082-i6gh016v72s62sfamqqc8d1iek2tkig4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
