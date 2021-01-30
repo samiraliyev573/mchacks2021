@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'chat_screen.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -6,7 +7,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text("This is home page"),
+          child: FlatButton(
+            child: Text("Go to Chat Screen"),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ChatScreen();
+              }));
+            },
+          ),
         ),
       ),
     );
