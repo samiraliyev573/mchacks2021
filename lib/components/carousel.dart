@@ -22,7 +22,6 @@ class _CarouselState extends State<Carousel> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = PageController(
       viewportFraction: 0.8,
@@ -38,7 +37,6 @@ class _CarouselState extends State<Carousel> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     subscription?.cancel();
     super.dispose();
     _controller.dispose();
