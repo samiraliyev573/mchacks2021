@@ -41,6 +41,7 @@ class TopicTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               topic.title,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .headline5
@@ -50,6 +51,14 @@ class TopicTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Icon(Icons.date_range_outlined),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "${topic.date}",
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
               Icon(Icons.star),
               SizedBox(
                 width: 10,
