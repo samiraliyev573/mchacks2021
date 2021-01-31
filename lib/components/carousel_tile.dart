@@ -15,6 +15,7 @@ class TopicTile extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () => OpinionSelector(
+                      title: topic.title,
                       topicDesc: topic.desc,
                       opinion1: topic.option1,
                       opinion2: topic.option2)
