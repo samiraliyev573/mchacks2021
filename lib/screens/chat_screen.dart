@@ -1,8 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:mchacks2021/constants.dart';
+import 'package:mchacks2021/screens/home_page.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -22,11 +28,20 @@ class _ChatScreenState extends State<ChatScreen> {
 
   String messageText;
 
+  Timer _timer;
+  int _start = 10;
   @override
   void initState() {
     super.initState();
 
     getCurrentUser();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   void getCurrentUser() async {
@@ -40,8 +55,82 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  void startTimer() {
+    const oneSec = const Duration(milliseconds: 900);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          if (_start < 1) {
+            showDialog(
+                context: context,
+                barrierDismissible:
+                    true, // set to false if you want to force a rating
+                builder: (context) {
+                  return RatingDialog(
+                    icon: const Icon(
+                      Icons.rate_review,
+                      size: 100,
+                      color: Colors.red,
+                    ), // set your own image/icon widget
+                    title: "Rate this conversation",
+                    description:
+                        "Tap a star to set your rating. Add more description here if you want.",
+                    submitButton: "SUBMIT",
+                    alternativeButton: "Contact us instead?", // optional
+                    positiveComment: "We are so happy to hear :)", // optional
+                    negativeComment: "We're sad to hear :(", // optional
+                    accentColor: Colors.red, // optional
+                    onSubmitPressed: (int rating) {
+                      print("onSubmitPressed: rating = $rating");
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
+                    },
+                    onAlternativePressed: () {
+                      print("onAlternativePressed: do something");
+                      // TODO: maybe you want the user to contact you instead of rating a bad review
+                    },
+                  );
+                });
+            _timer.cancel();
+          } else {
+            _start = _start - 1;
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    int minute = ((_start) ~/ 60);
+    int second = (_start % 60);
+    var linearPercent = LinearPercentIndicator(
+      alignment: MainAxisAlignment.center,
+      width: MediaQuery.of(context).size.width * 0.75,
+      animation: true,
+      lineHeight: MediaQuery.of(context).size.height * 0.05,
+      animationDuration: _start * 1000,
+      percent: 1.0,
+      linearGradient: LinearGradient(colors: [
+        Color(0xFFFC4F6C),
+        Color(0xFFDF5CA6),
+        Color(0xFFDF5CA8),
+        Color(0xFFB46FFB),
+        Colors.purple[400]
+      ]),
+      linearStrokeCap: LinearStrokeCap.roundAll,
+      center: Text(
+        '$minute:$second',
+        style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 19),
+      ),
+      animateFromLastPercent: true,
+      clipLinearGradient: true,
+      fillColor: Color(0xFF3E4665),
+      backgroundColor: Color(0xFF252C4A),
+      restartAnimation: true,
+    );
     return Scaffold(
       backgroundColor: Colors.white38,
       appBar: AppBar(
@@ -53,6 +142,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            linearPercent,
             MessagesStream(mycolor: widget.color),
             Container(
               decoration: kMessageContainerDecoration,
