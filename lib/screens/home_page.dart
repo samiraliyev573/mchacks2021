@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mchacks2021/components/carousel.dart';
+import 'package:mchacks2021/constants.dart';
 
 import 'chat_screen.dart';
 import '../components/categories.dart';
@@ -10,9 +11,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70,
+      backgroundColor: color_background,
       appBar: AppBar(
-        backgroundColor: Colors.white24,
+        backgroundColor: color_background,
         elevation: 0,
         leading: IconButton(
           padding: EdgeInsets.only(left: 15),
