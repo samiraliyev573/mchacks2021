@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.only(left: 15),
           icon: Icon(
             Icons.menu,
-            color: Colors.black,
+            color: Colors.white,
           ),
           onPressed: () {},
         ),
@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.search,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onPressed: () {},
             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -49,15 +49,17 @@ class _HomeBodyState extends State<HomeBody> {
   Stream<String> get stream => _controller.stream;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          CategoryList(_controller),
-          SizedBox(
-            height: 20,
-          ),
-          Carousel(stream),
-        ],
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CategoryList(_controller),
+            SizedBox(
+              height: 20,
+            ),
+            Carousel(stream),
+          ],
+        ),
       ),
     );
   }
