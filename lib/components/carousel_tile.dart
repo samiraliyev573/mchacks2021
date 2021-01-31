@@ -15,12 +15,9 @@ class TopicTile extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () => OpinionSelector(
-                      topicTitle:
-                          "Sunt ad tempor minim excepteur magna ut proident magna pariatur culpa voluptate consequat duis non.",
-                      opinion1:
-                          "Culpa sit velit dolor eiusmod ad eu eu excepteur.",
-                      opinion2:
-                          "Veniam Lorem ad et aliqua cillum id minim ipsum ex laborum laborum nisi.")
+                      topicDesc: topic.desc,
+                      opinion1: topic.option1,
+                      opinion2: topic.option2)
                   .popup(context),
               child: Container(
                 decoration: BoxDecoration(
