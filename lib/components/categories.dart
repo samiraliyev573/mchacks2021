@@ -1,6 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class CategoryList extends StatefulWidget {
+  final StreamController<String> controller;
+
+  CategoryList(this.controller);
+
   @override
   _CategoryListState createState() => _CategoryListState();
 }
@@ -8,7 +14,12 @@ class CategoryList extends StatefulWidget {
 class _CategoryListState extends State<CategoryList> {
   int selectedCategory = 0;
 
-  List<String> categories = ["Fun", "Technology", "Sports", "Technology"];
+  List<String> categories = ["Random", "Technology", "Sports", "Politics"];
+
+  @override
+  void initState() {
+    widget.controller.add(categories[0]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +34,7 @@ class _CategoryListState extends State<CategoryList> {
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: GestureDetector(
             onTap: () {
+              widget.controller.add(categories[index]);
               setState(() {
                 selectedCategory = index;
               });

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mchacks2021/components/carousel.dart';
 
@@ -8,7 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff9ab7d3),
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         backgroundColor: Colors.white24,
         elevation: 0,
@@ -42,16 +44,18 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  final _controller = StreamController<String>();
+  Stream<String> get stream => _controller.stream;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          CategoryList(),
+          CategoryList(_controller),
           SizedBox(
             height: 20,
           ),
-          Carousel(),
+          Carousel(stream),
         ],
       ),
     );

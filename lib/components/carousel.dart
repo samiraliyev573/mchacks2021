@@ -8,6 +8,8 @@ import 'carousel_tile.dart';
 import 'dart:math' as math;
 
 class Carousel extends StatefulWidget {
+  final Stream<String> categoryStream;
+  Carousel(this.categoryStream);
   @override
   _CarouselState createState() => _CarouselState();
 }
@@ -17,6 +19,10 @@ class _CarouselState extends State<Carousel> {
   int initialPage = 1;
   List<DocumentSnapshot> topicList;
   StreamSubscription<QuerySnapshot> subscription;
+  StreamSubscription<String> categorySub;
+  String selectedCategory;
+  List<DocumentSnapshot>
+      categoryElements; // Get elements corresponding to the current category
   final CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('topics');
 
@@ -31,8 +37,23 @@ class _CarouselState extends State<Carousel> {
     subscription = collectionReference.snapshots().listen((datasnapshot) {
       setState(() {
         topicList = datasnapshot.docs;
+        this.categoryElements = topicList
+            .where((topic) => topic.data()['category'] == this.selectedCategory)
+            .toList();
       });
     });
+
+    categorySub = widget.categoryStream.listen(
+      (data) => setState(() {
+        this.selectedCategory = data.toString();
+        this.categoryElements = topicList != null
+            ? topicList
+                .where((topic) =>
+                    topic.data()['category'] == this.selectedCategory)
+                .toList()
+            : null;
+      }),
+    );
   }
 
   @override
@@ -44,56 +65,64 @@ class _CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: AspectRatio(
-        aspectRatio: 0.85,
-        child: topicList != null
-            ? PageView.builder(
-                onPageChanged: (value) {
-                  setState(() {
-                    initialPage = value;
-                  });
-                },
-                physics: ClampingScrollPhysics(),
-                controller: _controller,
-                itemCount: topicList.length,
-                itemBuilder: (context, index) {
-                  return buildTopicSlider(index);
-                })
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
-      ),
-    );
+    return this.categoryElements != null
+        ? Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: AspectRatio(
+                aspectRatio: 0.85,
+                child: this.categoryElements.isNotEmpty
+                    ? PageView.builder(
+                        onPageChanged: (value) {
+                          setState(() {
+                            initialPage = value;
+                          });
+                        },
+                        physics: ClampingScrollPhysics(),
+                        controller: _controller,
+                        itemCount: this.categoryElements.length,
+                        itemBuilder: (context, index) {
+                          return buildTopicSlider(
+                              this.categoryElements[index], index);
+                        })
+                    : Center(
+                        child: Text(
+                          "Coming Soon",
+                          style: TextStyle(fontSize: 24),
+                        ),
+                      )),
+          )
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
-  Widget buildTopicSlider(int index) => AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        double value = 0;
-        if (_controller.position.haveDimensions) {
-          value = index - _controller.page;
-          value = (value * 0.038).clamp(-1, 1);
-        }
-        return AnimatedOpacity(
-          duration: Duration(milliseconds: 350),
-          opacity: initialPage == index ? 1 : 0.4,
-          child: Transform.rotate(
-            angle: math.pi * value,
-            child: TopicTile(
-              new Topic(
-                  id: topicList[index].data()['url'],
-                  numAttempts: topicList[index].data()['numAttempts'],
-                  title: topicList[index].data()['title'],
-                  desc: topicList[index].data()['desc'],
-                  imgurl: topicList[index].data()['imgurl'],
-                  option1: topicList[index].data()['option1'],
-                  option2: topicList[index].data()['option2'],
-                  date: topicList[index].data()['date'],
-                  category: topicList[index].data()['category']),
-            ),
-          ),
-        );
-      });
+  Widget buildTopicSlider(DocumentSnapshot element, int index) =>
+      AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            double value = 0;
+            if (_controller.position.haveDimensions) {
+              value = index - _controller.page;
+              value = (value * 0.038).clamp(-1, 1);
+            }
+            return AnimatedOpacity(
+              duration: Duration(milliseconds: 350),
+              opacity: initialPage == index ? 1 : 0.4,
+              child: Transform.rotate(
+                angle: math.pi * value,
+                child: TopicTile(
+                  new Topic(
+                      id: element.data()['url'],
+                      numAttempts: element.data()['numAttempts'],
+                      title: element.data()['title'],
+                      desc: element.data()['desc'],
+                      imgurl: element.data()['imgurl'],
+                      option1: element.data()['option1'],
+                      option2: element.data()['option2'],
+                      date: element.data()['date'],
+                      category: element.data()['category']),
+                ),
+              ),
+            );
+          });
 }
