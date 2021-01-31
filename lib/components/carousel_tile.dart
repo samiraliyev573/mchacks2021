@@ -30,7 +30,7 @@ class TopicTile extends StatelessWidget {
                     )
                   ],
                   image: DecorationImage(
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitHeight,
                     image: NetworkImage(topic.imgurl),
                   ),
                 ),
