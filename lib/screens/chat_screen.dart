@@ -132,7 +132,7 @@ class _ChatScreenState extends State<ChatScreen> {
       restartAnimation: true,
     );
     return Scaffold(
-      backgroundColor: Colors.white38,
+      backgroundColor: Color.fromRGBO(40, 40, 50, 1),
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: widget.color.withOpacity(0.7),
@@ -256,7 +256,7 @@ class MessageBubble extends StatelessWidget {
             sender,
             style: TextStyle(
               fontSize: 12.0,
-              color: Colors.black54,
+              color: Colors.white,
             ),
           ),
           Material(
