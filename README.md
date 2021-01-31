@@ -1,6 +1,6 @@
-# mchacks2021
+# mchacks2021 - Change My Mind
 
-A new Flutter project.
+Project for McHacks2021. 
 
 ## Getting Started
 

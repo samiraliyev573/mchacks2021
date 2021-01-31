@@ -1,4 +1,8 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mchacks2021/services/category_service.dart';
 import '../models/topic.dart';
 import 'carousel_tile.dart';
 import 'dart:math' as math;
@@ -11,6 +15,10 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   PageController _controller;
   int initialPage = 1;
+  List<DocumentSnapshot> topicList;
+  StreamSubscription<QuerySnapshot> subscription;
+  final CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('topics');
 
   @override
   void initState() {
@@ -20,11 +28,18 @@ class _CarouselState extends State<Carousel> {
       viewportFraction: 0.8,
       initialPage: initialPage,
     );
+
+    subscription = collectionReference.snapshots().listen((datasnapshot) {
+      setState(() {
+        topicList = datasnapshot.docs;
+      });
+    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
+    subscription?.cancel();
     super.dispose();
     _controller.dispose();
   }
@@ -35,18 +50,22 @@ class _CarouselState extends State<Carousel> {
       padding: EdgeInsets.symmetric(vertical: 10),
       child: AspectRatio(
         aspectRatio: 0.85,
-        child: PageView.builder(
-            onPageChanged: (value) {
-              setState(() {
-                initialPage = value;
-              });
-            },
-            physics: ClampingScrollPhysics(),
-            controller: _controller,
-            itemCount: topics.length,
-            itemBuilder: (context, index) {
-              return buildTopicSlider(index);
-            }),
+        child: topicList != null
+            ? PageView.builder(
+                onPageChanged: (value) {
+                  setState(() {
+                    initialPage = value;
+                  });
+                },
+                physics: ClampingScrollPhysics(),
+                controller: _controller,
+                itemCount: topicList.length,
+                itemBuilder: (context, index) {
+                  return buildTopicSlider(index);
+                })
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }
@@ -63,7 +82,20 @@ class _CarouselState extends State<Carousel> {
           duration: Duration(milliseconds: 350),
           opacity: initialPage == index ? 1 : 0.4,
           child: Transform.rotate(
-              angle: math.pi * value, child: TopicTile(topics[index])),
+            angle: math.pi * value,
+            child: TopicTile(
+              new Topic(
+                  id: topicList[index].data()['url'],
+                  numAttempts: topicList[index].data()['numAttempts'],
+                  title: topicList[index].data()['title'],
+                  desc: topicList[index].data()['desc'],
+                  imgurl: topicList[index].data()['imgurl'],
+                  option1: topicList[index].data()['option1'],
+                  option2: topicList[index].data()['option2'],
+                  date: topicList[index].data()['date'],
+                  category: topicList[index].data()['category']),
+            ),
+          ),
         );
       });
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mchacks2021/components/carousel.dart';
-import 'package:mchacks2021/components/genres.dart';
+
 import 'chat_screen.dart';
 import '../components/categories.dart';
 
@@ -36,14 +36,18 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class HomeBody extends StatelessWidget {
+class HomeBody extends StatefulWidget {
+  @override
+  _HomeBodyState createState() => _HomeBodyState();
+}
+
+class _HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           CategoryList(),
-          Genres(),
           SizedBox(
             height: 20,
           ),
