@@ -47,8 +47,8 @@ class _CategoryListState extends State<CategoryList> {
                   style: Theme.of(context).textTheme.headline5.copyWith(
                       fontWeight: FontWeight.w600,
                       color: index == selectedCategory
-                          ? Colors.black
-                          : Colors.black.withOpacity(0.4)),
+                          ? Colors.white
+                          : Colors.white.withOpacity(0.4)),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
