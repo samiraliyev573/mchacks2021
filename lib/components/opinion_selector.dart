@@ -3,12 +3,14 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../screens/chat_screen.dart';
 
 class OpinionSelector {
+  final String title;
   final String topicDesc;
   final String opinion1;
   final String opinion2;
 
   OpinionSelector(
-      {@required this.topicDesc,
+      {@required this.title,
+      @required this.topicDesc,
       @required this.opinion1,
       @required this.opinion2});
 
@@ -33,11 +35,13 @@ class OpinionSelector {
             ),
             SizedBox(height: 20),
             OpinionButton(
+              title: title,
               opinionText: opinion1,
               buttonColor: Colors.yellowAccent,
             ),
             SizedBox(height: 10),
             OpinionButton(
+              title: title,
               opinionText: opinion2,
               buttonColor: Colors.greenAccent,
             ),
@@ -50,9 +54,10 @@ class OpinionSelector {
 
 // Button with opinion sentence text
 class OpinionButton extends StatelessWidget {
+  final String title;
   final String opinionText;
   final Color buttonColor;
-  OpinionButton({this.opinionText, this.buttonColor});
+  OpinionButton({this.opinionText, this.buttonColor, this.title});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -72,6 +77,7 @@ class OpinionButton extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) {
             return ChatScreen(
+              title: title,
               color: buttonColor,
             );
           },

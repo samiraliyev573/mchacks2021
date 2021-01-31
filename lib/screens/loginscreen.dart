@@ -67,12 +67,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       email = value;
                     },
                     decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFF1C2341),
-                        hintText: "Enter your email",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12)))),
+                      filled: true,
+                      fillColor: Color(0xFF1C2341),
+                      hintText: "Enter your email",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 10,
