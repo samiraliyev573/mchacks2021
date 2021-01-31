@@ -45,3 +45,5 @@ const kDefaultShadow = BoxShadow(
   blurRadius: 4,
   color: Colors.black26,
 );
+
+const color_background = Color.fromRGBO(40, 40, 50, 1);
