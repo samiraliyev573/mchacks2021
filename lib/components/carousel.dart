@@ -21,6 +21,7 @@ class _CarouselState extends State<Carousel> {
   StreamSubscription<QuerySnapshot> subscription;
   StreamSubscription<String> categorySub;
   String selectedCategory;
+  String prevCat;
   List<DocumentSnapshot>
       categoryElements; // Get elements corresponding to the current category
   final CollectionReference collectionReference =
@@ -45,6 +46,7 @@ class _CarouselState extends State<Carousel> {
 
     categorySub = widget.categoryStream.listen(
       (data) => setState(() {
+        this.prevCat = this.selectedCategory;
         this.selectedCategory = data.toString();
         this.categoryElements = topicList != null
             ? topicList
@@ -52,6 +54,10 @@ class _CarouselState extends State<Carousel> {
                     topic.data()['category'] == this.selectedCategory)
                 .toList()
             : null;
+        if (this.prevCat != 'Sports' && this.prevCat != 'Politics') {
+          this.initialPage = 1;
+          this._controller.jumpToPage(1);
+        }
       }),
     );
   }
