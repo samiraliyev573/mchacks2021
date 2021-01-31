@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'McHacks2021',
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+          fontFamily: "Montserrat-Medium", brightness: Brightness.dark),
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
     );

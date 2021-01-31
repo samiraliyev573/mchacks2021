@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import '../screens/chat_screen.dart';
 
 class OpinionSelector {
   final String topicDesc;
@@ -31,9 +32,15 @@ class OpinionSelector {
               ),
             ),
             SizedBox(height: 20),
-            OpinionButton(opinion1),
+            OpinionButton(
+              opinionText: opinion1,
+              buttonColor: Colors.yellowAccent,
+            ),
             SizedBox(height: 10),
-            OpinionButton(opinion2),
+            OpinionButton(
+              opinionText: opinion2,
+              buttonColor: Colors.greenAccent,
+            ),
           ],
         ),
       ),
@@ -44,13 +51,13 @@ class OpinionSelector {
 // Button with opinion sentence text
 class OpinionButton extends StatelessWidget {
   final String opinionText;
-  OpinionButton(this.opinionText);
+  final Color buttonColor;
+  OpinionButton({this.opinionText, this.buttonColor});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Color.fromRGBO(79, 192, 209, 1.0), // background color
-      ),
+      style: ElevatedButton.styleFrom(primary: buttonColor // background color
+          ),
       child: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Text(
@@ -62,8 +69,13 @@ class OpinionButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        Navigator.of(context)?.pop();
-        // TODO navigate to waiting screen; send 'opinionText' as argument
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ChatScreen(
+              color: buttonColor,
+            );
+          },
+        ));
       },
     );
   }
